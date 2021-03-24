@@ -53,28 +53,33 @@ for (int i=0; i<emotion.length; i++){
     String firstValue =emotion[i].substring(0);
       if(i == 0)
       {
+        // to convert the first value to Float.
        x = Float.parseFloat(firstValue);
        System.out.println(x);
-      }else if(i == 1)
-      {
-      String secondValue =emotion[i].substring(0);
-      //secondValue = emotion[i].replaceAll(",","");
-      y = Float.parseFloat(secondValue);
-      System.out.println(y);
-      }else if(i == 2)
-      {
-      String thirdValue =emotion[i].substring(0);
-      //thirdValue = emotion[i].replaceAll(",","");
-      w = Float.parseFloat(thirdValue);
-      System.out.println(w);
-      }else if(i == 3)
-      {
-      String fouthValue =emotion[i].substring(0);
-      h = Float.parseFloat(fouthValue);
-       System.out.println(h);
       }
+      else if(i == 1)
+      {
+         // to convert the second value to Float.
+        String secondValue =emotion[i].substring(0);
+        y = Float.parseFloat(secondValue);
+        System.out.println(y);
+      }
+      else if(i == 2)
+      {
+        // to convert the second value to Float.
+        String thirdValue =emotion[i].substring(0);
+        w = Float.parseFloat(thirdValue);
+        System.out.println(w);
+      }
+      else if(i == 3)
+      {
+        // to convert the second value to Float.
+        String fouthValue =emotion[i].substring(0);
+        h = Float.parseFloat(fouthValue);
+        System.out.println(h);
+      }
+      // to draw the rectangle
       rect(x, y, w, h);
-     //System.out.println(x);
    }
    
     //for (int i=0; i<emotion.length; i++){

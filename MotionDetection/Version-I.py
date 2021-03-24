@@ -19,11 +19,6 @@ class client(Thread):
         self.addr = address
         self.start()
 
-    # def run(self):
-    #
-    #     while 1:
-
-
 serversocket.listen(5)
 print('server started and listening')
 
@@ -38,15 +33,20 @@ while True:
     _, img = cap.read()
     # Convert to grayscale
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    result = detector.detect_emotions(img)
-    if result:
 
+    # to detect the emotion this method is used. This returns 4 corners of the face along with emotions.
+    result = detector.detect_emotions(img)
+    # if is added so that it wont crash if it could not find any emotion
+    if result:
+        # to get the 4 corners around the face.
         bounding_box = result[0]["box"]
+        #  to get the emotions.
         emotions = result[0]["emotions"]
 
         # Bounding around face is drawn
         cv2.rectangle(img, (bounding_box[0], bounding_box[1]),
                       (bounding_box[0] + bounding_box[2], bounding_box[1] + bounding_box[3]), (0, 155, 255), 2 )
+        # to find the emotion from the emotion list with its value. for example happy: 0.55
         for idx, (emotion, score) in enumerate(emotions.items()):
             color = (211, 211, 211) if score < 0.40 else (255, 0, 0)
             emotion_score = "{}: {}".format(
@@ -54,13 +54,13 @@ while True:
                 if score > 0.01
                 else ""
             )
+            # if the emotion score is higher then it will be send to
             if score > 0.40:
                 #  to send a list as bytes.
                 s = str(bounding_box)
                 d2 = eval(s)
-                data = pickle.dumps(s)
-
-                # data = bounding_box.encode()
+                data = pickle.dumps(bounding_box)
+                #  sending to processing side
                 clientsocket.sendall(data)
             cv2.putText(img,emotion_score,
                     (bounding_box[0], bounding_box[1] + bounding_box[3] + 30 + idx * 15),cv2.FONT_HERSHEY_SIMPLEX,0.5,color,1,cv2.LINE_AA,)
