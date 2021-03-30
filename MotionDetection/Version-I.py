@@ -61,8 +61,10 @@ while True:
                 d2 = eval(s)
                 data = pickle.dumps(s)
 
-                # data = bounding_box.encode()
+                dataEmotions = emotion_score.encode()
                 clientsocket.sendall(data)
+                clientsocket.sendall(dataEmotions)
+
             cv2.putText(img,emotion_score,
                     (bounding_box[0], bounding_box[1] + bounding_box[3] + 30 + idx * 15),cv2.FONT_HERSHEY_SIMPLEX,0.5,color,1,cv2.LINE_AA,)
 
