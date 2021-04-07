@@ -19,11 +19,19 @@ String inString;
 String[] faceLocation;
 String[] emotion;
 color emotionColor;
+int score;
 
 Float x = 0.0;
 Float y= 0.0;
 Float w= 0.0;
 Float h= 0.0;
+
+
+int howMany = 100;// 100?
+//here you make a empty array of type Sample
+//One array to rule them all :)
+//Fear[] fears  = new Fear[howMany];
+
 
 void setup() { 
   // Connect to the local machine at port 10002.
@@ -35,20 +43,63 @@ void setup() {
   size(800, 800);
 
 
-  // Load a soundfile from the /data folder of the sketch and play it back
- // file = new SoundFile(this, "D1.wav");
-  //file.play();
+   //Load a soundfile from the /data folder of the sketch and play it back
+  file = new SoundFile(this, "D1.wav");
+  file.play();
   //change volume; number between 1 and 0.0
-  //file.amp(0.25);
+  file.amp(0.05);
 } 
 
 void getEmotionColor(String emotionName) {
   if (emotionName.contains("happy")) {
+    background(0);
     emotionColor = color(250, 255, 10);
+    // to start the visuals from face location
+      translate(x, y);
+      float val = randomGaussian();
+    
+      float sd = 5;             // Define a standard deviation
+      float mean = y;           // Define a mean value (middle of the screen along the x-axis)
+      x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
+    
+      noStroke();
+        // to draw the methods accordingly the emotion score, e.g. if the score is 40 then it will draw 40 circles
+        for (int i = 0; i < score; i++) {
+        noStroke();
+        fill(emotionColor, 50);
+          // draw the ellipse
+          ellipse(random(x*4), random(y*4), 50, 50);
+         
+
+        }
+  
   } else if (emotionName.contains("sad")) {
     emotionColor = color(2, 165, 250);
   } else if (emotionName.contains("neutral")) {
-    emotionColor = color(255, 255, 255);
+   background(0);
+     emotionColor = color(155, 255, 255);
+     translate(x, y);
+      float val = randomGaussian();
+    
+      float sd = 10;                  // Define a standard deviation
+      float mean = y;           // Define a mean value (middle of the screen along the x-axis)
+      x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
+    
+      noStroke();
+      //fill(emotionColor);
+        for (int i = 0; i < score; i++) {
+      noStroke();
+        fill(emotionColor, 50);
+          // draw the ellipse
+          ellipse(random(x*4), random(y*4), 50, 50);
+         
+
+        }
+  
+      //for(int i = 0; i < score; i++){
+      //  ellipse(x, random(y), w/3, h/3);   // Draw an ellipse at our "normal" random location
+      //}
+    
   } else if (emotionName.contains("surprise")) {
     emotionColor = color(0, 255, 0);
   } else if (emotionName.contains("disgust")) {
@@ -66,7 +117,7 @@ void getEmotionColor(String emotionName) {
 
 
   void draw() { 
-    myClient.write("Connection is stable");
+    myClient.write("Connection is stable"); //<>//
     if (myClient.available() > 0) { 
       background(0); 
       //noFill();
@@ -107,7 +158,10 @@ void getEmotionColor(String emotionName) {
           System.out.println(x);
         } else if (i == 1)
         {
-          String score =emotion[i].substring(0);
+          // to remove the 0 from the begining of the value e.g. 089 should be 89
+          String scoreV =emotion[i].substring(0);
+          //scoreV = scoreV;
+          score = Integer.parseInt(scoreV);
           System.out.println(score);
           // to convert the second value to Float.
           String secondValue =faceLocation[i].substring(0);
@@ -131,30 +185,52 @@ void getEmotionColor(String emotionName) {
         //  fill(emotionColor);
         //  rect(x, y, w, h);
 
-        translate(x, y);
-        for (int b =0; b<branches; b++) {
+        //translate(x, y);
+        //for (int b =0; b<branches; b++) {
 
-          // rotate(TWO_PI/branches);
-          pushMatrix(); //remember origin in center + 1 rotation
+        //  // rotate(TWO_PI/branches);
+        //  pushMatrix(); //remember origin in center + 1 rotation
 
-          //draw the leaves of the branch
-          for (int f=1; f<=leaves; f++) {
-            float distance = -30*(sin(radians(a)));
-            float size = 20*(cos(radians(a))+1);
+        //  //draw the leaves of the branch
+        //  for (int f=1; f<=leaves; f++) {
+        //    float distance = -30*(sin(radians(a)));
+        //    float size = 20*(cos(radians(a))+1);
 
-            translate(f*distance, 0);
-            rotate(radians(90/leaves));
-            fill(emotionColor, 128*f/leaves);
-            rect(0, 0, w*size, y*size);
-          }
+        //    translate(f*distance, 0);
+        //    rotate(radians(90/leaves));
+        //    fill(emotionColor, 128*f/leaves);
+           
+        //    rect(x, y, w*size, y*size);
+        //  }
 
-          popMatrix(); //restore origin in center + 1 rotation
-        }
-      }
+        //  popMatrix(); //restore origin in center + 1 rotation
+        //}
+      } 
+      //file.amp(1.0);
     }
+    
     a++;
     t+=0.3;
     // if a greater than 359 -. a = 0
     a %= 359;
     t %= 359;
   } 
+  
+  
+//class Fear {
+
+//  //class vars
+//  float xv, yv, xsp, ysp;
+
+//  // a constructor
+//  Fear(float _xv, float _yv, float _xsp, float _ysp) {
+//    xv  = _xv;
+//    yv  = _yv;
+//    xsp = _xsp;
+//    ysp = _ysp;
+//  }
+
+//  void display() {
+//    ellipse(xv, yv, 50, 50);
+//  }
+//}

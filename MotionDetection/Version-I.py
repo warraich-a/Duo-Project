@@ -21,7 +21,7 @@ class client(Thread):
 
 serversocket.listen(5)
 print('server started and listening')
-
+# Initializes the face detector and Keras model for facial expression recognition. it performs quite fast on a CPU
 detector = FER(mtcnn=True)
 cap = cv2.VideoCapture(0)
 # it will wait here for the client and when the client is connected then it will enter the loop
@@ -61,8 +61,15 @@ while True:
                 d2 = eval(s)
                 data = pickle.dumps(s)
 
-                dataEmotions = emotion_score.encode()
-                clientsocket.sendall(data)
+                # to only send the emotion score and remove the extra characters
+                sep = ' '
+                val = str(emotion_score) + sep  #
+                # to send through sockets, you can either send as a bytes or enocde.
+                # bytes = b'This is an example'
+                # to send a variable you need to encode that frst
+                # variableToSend = variable.encode() this can be now send through sendall method
+                dataEmotions = val.encode()
+                clientsocket.send(data)
                 clientsocket.sendall(dataEmotions)
 
             cv2.putText(img,emotion_score,
