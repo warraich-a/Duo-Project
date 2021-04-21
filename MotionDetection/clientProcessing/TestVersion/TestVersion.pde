@@ -38,7 +38,9 @@ void setup() {
 
  void getEmotionColor(String emotionName){
     if (emotionName.contains("happy")){
+      background(0);
            emotionColor = color(255, 0, 0);
+            translate(x, y);
             float val = randomGaussian();
           
             float sd = 10;                  // Define a standard deviation
@@ -51,10 +53,12 @@ void setup() {
          } else if (emotionName.contains("sad")){
            emotionColor = color(0, 255, 0);
          } else if (emotionName.contains("neutral")){
+           background(0);
            emotionColor = color(155, 255, 255);
+           translate(x, y);
             float val = randomGaussian();
           
-            float sd = 10;                  // Define a standard deviation
+            float sd = 5;                  // Define a standard deviation
             float mean = y;           // Define a mean value (middle of the screen along the x-axis)
             x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
           
@@ -72,15 +76,16 @@ void setup() {
          }
      }
 void draw() { 
+  
    myClient.write("Connection is stable");
    //println(frameCount);
  if (myClient.available() > 0) { 
-    
+     //<>//
     //noFill();
     noStroke();
     inString = myClient.readString(); 
     
-    // to remove the first few characters until bracket e.g. €X(191, 112, 243, 243)q. //<>//
+    // to remove the first few characters until bracket e.g. €X(191, 112, 243, 243)q.
     inString = inString.substring(7);
     // to remove all the brakets
      inString= inString.replaceAll("\\p{P}","");
@@ -140,12 +145,12 @@ pCounter++;
         System.out.println(w);
       }
       else if(i == 3)
-      {
+      { //<>//
         // to convert the second value to Float.
         String fouthValue =faceLocation[i].substring(0);
         h = Float.parseFloat(fouthValue);
         System.out.println(h);
-      } //<>//
+      }
 
       // to draw the rectangle
       //fill(emotionColor);
