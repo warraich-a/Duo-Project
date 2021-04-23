@@ -26,10 +26,18 @@ Float y= 0.0;
 Float w= 0.0;
 Float h= 0.0;
 
-// A "Wiggler" object
-Wiggler wig;
+
 Drop[] drops;
 Drop[] faceDrops;
+
+int r=0, g=0, b =0;
+int myStrokeWeight = 3;
+
+Particle [] pickles = new Particle [100];
+
+ArrayList<Fire> fireworks = new ArrayList();
+final float G = 3.0;
+
 void setup() { 
   // Connect to the local machine at port 10002.
   // This example will not run if you haven't
@@ -41,38 +49,24 @@ void setup() {
   //frameRate(30);
 
   //Load a soundfile from the /data folder of the sketch and play it back
-  file = new SoundFile(this, "D1.wav");
-  file.play();
+  //file = new SoundFile(this, "D1.wav");
+  //file.play();
   //change volume; number between 1 and 0.0
-  file.amp(0.05);
+  //file.amp(0.05);
 } 
 
 void getEmotionColor(String emotionName) {
   if (emotionName.contains("happy")) {
-    background(0);
-    emotionColor = color(250, 255, 10);
-    // to start the visuals from face location
-    //surface.setLocation(0,0);
-    //translate(0, 0);
-    //float val = randomGaussian();
-
-    //float sd = 5;             // Define a standard deviation
-    //float mean = y;           // Define a mean value (middle of the screen along the x-axis)
-    //x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
-
-    //noStroke();
-    //  // to draw the methods accordingly the emotion score, e.g. if the score is 40 then it will draw 40 circles
-    //  for (int i = 0; i < score; i++) {
-    //  noStroke();
-    //  fill(emotionColor, 50);
-    //    // draw the ellipse
-    //    ellipse(x, y, w, h);
+  } else if (emotionName.contains("sad")) {
 
 
-    //  }
-    //pushMatrix();/
+    for (int i = 0; i <height; i++) {
+      stroke(i, i, i);
+      line(0, i, width, i);
+    }
+    emotionColor = color(2, 165, 250);
     drops = new Drop[500];
-    faceDrops = new Drop[score];
+    faceDrops = new Drop[score*2];
     for (int i = 0; i < drops.length; i++) 
     { // we create the drops 
       drops[i] = new Drop();
@@ -87,26 +81,17 @@ void getEmotionColor(String emotionName) {
       drops[i].show(emotionColor); // render drop
     }
     //popMatrix();
-  } else if (emotionName.contains("sad")) {
-    emotionColor = color(2, 165, 250);
   } else if (emotionName.contains("neutral")) {
-    background(0);
+    //background(0);
     emotionColor = color(155, 255, 255);
-    translate(x, y);
-    // wig = new Wiggler(x, y, 155);
-    //wig.display();
-    // wig.wiggle();
-    //rect(x, y, w, h);
-    ellipse(x, y, w, h);
-    stroke(000); 
-
-
-    fill(emotionColor);
-    arc(x*2/2-30, y*2/2-40, 50, score, -PI, 0);  // upper half of circl
-    arc(x*2/2+30, y*2/2-40, 50, score, -PI, 0);  // upper half of circl
-    arc(x*2/2, y*2/2+30, 50, score, -PI, 0);  // upper half of circl
+    //translate(x, y);
   } else if (emotionName.contains("surprise")) {
     emotionColor = color(0, 255, 0);
+    FireWork(x, y);
+    for (int i = 0; i < fireworks.size(); i++) {
+      fireworks.get(i).update();
+      fireworks.get(i).draw();
+    }
   } else if (emotionName.contains("disgust")) {
     emotionColor = color(208, 5, 255);
   } else if (emotionName.contains("angry")) {
@@ -117,10 +102,16 @@ void getEmotionColor(String emotionName) {
 }
 
 
-
-
-
-
+void FireWork(float xGiven, float yGiven) {
+  //fireworks.clear();
+  color c = color(random(50, 255), random(50, 255), random(50, 255));
+  int numFires = (int)random(4, 1000);
+  for (int i=0; i<numFires; i++) {
+    float r = random(0, TWO_PI);
+    float R = random(0, 30);
+    fireworks.add(new Fire(xGiven, yGiven, R*sin(r), R*cos(r), c));
+  }
+}
 void draw() { 
   myClient.write("Connection is stable");
   if (myClient.available() > 0) { 
@@ -189,13 +180,8 @@ void draw() {
     } 
     //file.amp(1.0);
   }
-
-  a++;
-  t+=0.3;
-  // if a greater than 359 -. a = 0
-  a %= 359;
-  t %= 359;
 } 
+
 
 
 //class Fear {
