@@ -1,19 +1,20 @@
 //<>// //<>// //<>//
 
 
-//static final int NUM_LINES =10;
-//float t;
-// t+=0.4;
+//int xPos = width;
+//int yPos = height;
 
 //import sound
 import processing.sound.*;
 SoundFile file;   
 
 //inner circle
-float circle1 = 200;
+float circle1 = 150;
 //size outer circles
-float circle2 = 100;
-float circle3 = 100;
+float circle2 = 200 + width + height;
+float circle3 = 300;
+float circle4 = 400+width+height;
+
 
 
 float angnoise, radiusnoise;
@@ -47,16 +48,22 @@ int howMany = 100;// 100?
 
 
 void setup() { 
+
+  fullScreen();
+  //size(800, 800);
+  //size(1920, 1080);
+
+
   // Connect to the local machine at port 10002.
   // This example will not run if you haven't
   // previously started a server on this port.
   myClient = new Client(this, "127.0.0.1", 5204); 
   // Say hello
   myClient.write("Hello There");
-  size(800, 800);
+
+
   background(0);
-  //fullScreen();
-  // size(1920, 1080);
+
 
 
   //Load a soundfile from the /data folder of the sketch and play it back
@@ -69,19 +76,28 @@ void setup() {
 void getEmotionColor(String emotionName) {
   if (emotionName.contains("happy")) {
     background(0);
+    //in the middle of the screen
+    translate(width/2+x, height/2+y);
+    float scaleVar = map(width, 0, height, 0.5, 5);
+    scale(scaleVar);
+
+
     circle2 = score;
     noStroke();
 
     fill(#FFC915);
-    translate(x, y);
+
+    //translate(x, y);
 
     //ang1 shows how close and how many lines/dots circle
     for (float ang1 = 0; ang1 < 360; ang1 += 8) {
       float radian1 = radians(ang1);
       pushMatrix();
       translate(circle1 * cos(radian1), circle1 * sin(radian1));
+
+
       //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-      for (float ang2 = 0; ang2 < 90; ang2 += 2) {
+      for (float ang2 = 0; ang2 < 90; ang2 += 1) {
         //frameCount is speed of animation
         float radian2 = radians(ang2) - frameCount * 0.15 + radian1;
         //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
@@ -95,117 +111,44 @@ void getEmotionColor(String emotionName) {
       pushMatrix();
       translate(circle1 * cos(radian4), circle1 * sin(radian4));
       //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-      for (float ang3 = 0; ang3 < 360; ang3 += 15) {
+      for (float ang3 = 0; ang3 < 360; ang3 += 10) {
         //frameCount is speed of animation
-        float radian3 = radians(ang3) - frameCount * 0.1 + radian4;
+        float radian3 = radians(ang3) - frameCount * 0.1 + radian4+width;
         //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
         ellipse(circle2 * cos(radian3), circle2 * sin(radian3), 2, 2);
       }
       popMatrix();
     }
     //for (float ang2 = 0; ang2 < 360; ang2 += 3) {
-    //  float radian4 = radians(ang2);
+    //  float radian5 = radians(ang2);
     //  pushMatrix();
-    //  translate(circle2 * cos(radians3), circle2 * sin(radian3));
+    //  translate(circle3 * cos(radian5), circle3 * sin(radian5));
     //  //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-    //  for (float ang3 = 0; ang3 < 360; ang3 += 4) {
+    //  for (float ang3 = 0; ang3 < 360; ang3 += 5) {
     //    //frameCount is speed of animation
-    //    float radian3 = radians(ang3) - frameCount * 0.1 + radian4;
+    //    float radian3 = radians(ang3) - frameCount * 0.1 + radian5;
     //    //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
-    //    ellipse(circle3 * cos(radian3), circle3 * sin(radian3), 2, 2);
+    //    ellipse(circle4+width * cos(radian3), circle4+height * sin(radian3), 2, 2);
     //  }
     //  popMatrix();
     //}
-  } else if (emotionName.contains("neutral")) {
+  } else if (emotionName.contains("sad")) {
     emotionColor = color(2, 165, 250);
     background(0);
-  } else if (emotionName.contains("sad")) {
+  } else if (emotionName.contains("neutral")) {
     background(0);
     emotionColor = color(155, 255, 255);
-    
-    translate(x,y);
+
+    translate(width/50+x, height/2+y);
+
+
     String s = "DO YOU DARE TO SHOW YOUR TRUE COLOURS?";
     fill(emotionColor);
-    text(s,10,10,70,80);
-    
-      
-    
-    //translate(x, y);
-    //float val = randomGaussian();
+    text(s, 0, 0);
 
-    //float sd = 10;                  // Define a standard deviation
-    //float mean = y;           // Define a mean value (middle of the screen along the x-axis)
-    //x = ( val * sd ) + mean;  // Scale the gaussian random number by standard deviation and mean
-
-    //noStroke();
-    ////fill(emotionColor);
-    //for (int i = 0; i < score; i++) {
-    //  noStroke();
-    //  fill(emotionColor, 50);
-    //  // draw the ellipse
-    //  ellipse(random(x*4), random(y*4), 50, 50);
-    //}
-
-    //for(int i = 0; i < score; i++){
-    //  ellipse(x, random(y), w/3, h/3);   // Draw an ellipse at our "normal" random location
-    //}
-    //static final int NUM_LINES =10;
-    //float t;
-    //t+=0.4;
-
-    //stroke(255);
-    //strokeWeight(5);
-
-    ////translate to middle sketch
-    //translate(width/2, height/2);
-
-
-    //for (int i = 0; i <NUM_LINES; i++) {
-    //  //put two equations in one line
-    //  //+i to add looping effect to t and not stack on each other
-    //  line(x1(t+i), y1(t +i), x2(t+i), y2(t+i));
-    //}
-
-
-    //// two parametric equations
-    //// point(x1(t), y1(t));
-    //// point(x2(t), y2(t));
-    ////  t+=0.4;
-    ////}
-
-    //float x1(float t) {
-    //  //outside of sin wave change amplitude
-    //  // high frequency lower amplitude 
-    //  return sin(t /10)*100 + sin(t/5)*20;
-    //}
-
-
-    //float y1(float t) {
-    //  //sin(t/10) devide t adjust frequency of the line by lowering
-    //  //sin(t/10) multiply increase frequency 
-
-    //  return cos(-t/10)*100 + sin(t/5) *50;
-    //}
-
-
-    //float x2(float t) {
-    //  //outside of sin wave change amplitude
-    //  // high frequency lower amplitude 
-    //  return sin(t /10)*200 + sin(t)*2 + cos(t) *10;
-    //}
-
-
-    //float y2(float t) {
-    //  //sin(t/10) devide t adjust frequency of the line by lowering
-    //  //sin(t/10) multiply increase frequency 
-
-    //  return -cos(t/20)*200 + cos(t / 12) *20;
-    //}
+    textSize(height/15);
   } else if (emotionName.contains("surprise")) {
     emotionColor = color(0, 255, 0);
-    background(0);
-  } else if (emotionName.contains("disgust")) {
-    emotionColor = color(208, 5, 255);
     background(0);
   } else if (emotionName.contains("angry")) {
     emotionColor = color(250, 0, 0);
@@ -215,21 +158,30 @@ void getEmotionColor(String emotionName) {
     //}
     //else(background(0)){
 
-    angnoise = random(10);
-    radiusnoise = random(10);
-    xnoise = random(20);
-    ynoise = random(20);
+    //angnoise = random(10);
+    ////radiusnoise = random(10);
+    //xnoise = random(20);
+    //ynoise = random(20);
+
+    angnoise = 10;
+    //radiusnoise = random(10);
+    xnoise = 800;
+    ynoise = 800;
+
 
     //stroke(255,0,0);
 
     //line(random(800), random(800),400,400);
-
+    // pushMatrix();
     for (int i = 0; i < score; i++) {
 
       // length of connection line change by varying the radius
       radiusnoise += 5;
+      // radiusnoise += 1000;
       // radiusnoise += 0.5;
-      radius = (noise(radiusnoise) * 550) +1;
+      //radius = (noise(radiusnoise) * 550) +1;
+      //if 550 is replaced with the width and +1 with height, the lines fill the entire screen
+      radius = (noise(radiusnoise) * width) +height;
 
       //vary density of the line packing. Allow angle to increase or decrease -> reverse rotation
       angnoise += 0.01;
@@ -249,8 +201,8 @@ void getEmotionColor(String emotionName) {
       ynoise += 0.01;
 
       //width -> x ; height ->y; 
-      float centerX =w/2 + (noise(xnoise) * 100) - 50;
-      float centerY = h/2 + (noise(ynoise) * 100) - 50;
+      float centerX = width/2 + (noise(xnoise) * 100) -50;
+      float centerY = height/2 + (noise(ynoise) * 100) -50;
 
       float rad = radians(angle);
       float x1 = centerX + (radius * cos(rad));
@@ -265,9 +217,7 @@ void getEmotionColor(String emotionName) {
       strokeWeight(3); 
       line(x1, y1, x2, y2);
     }
-  } else if (emotionName.contains("fear")) {
-    emotionColor = color(41, 149, 101);
-    background(0);
+    // popMatrix();
   }
 }
 
