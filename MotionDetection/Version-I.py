@@ -24,6 +24,7 @@ print('server started and listening')
 # Initializes the face detector and Keras model for facial expression recognition. it performs quite fast on a CPU
 detector = FER(mtcnn=True)
 cap = cv2.VideoCapture(0)
+
 # it will wait here for the client and when the client is connected then it will enter the loop
 clientsocket, address = serversocket.accept()
 client(clientsocket, address)
