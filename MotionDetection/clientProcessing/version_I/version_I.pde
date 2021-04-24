@@ -69,8 +69,8 @@ void setup() {
 void getEmotionColor(String emotionName) {
   if (emotionName.contains("happy")) {
     background(0);
-    //in the middle of the screen
-     translate(width/2+x, height/2+y);;
+   
+
     float scaleVar = map(x, 0, h, 0.5, 2);
     scale(scaleVar);
 
@@ -86,6 +86,8 @@ void getEmotionColor(String emotionName) {
     for (float ang1 = 0; ang1 < 360; ang1 += 8) {
       float radian1 = radians(ang1);
       pushMatrix();
+       //in the middle of the screen
+      translate(x*2, y*2);
       translate(circle1 * cos(radian1), circle1 * sin(radian1));
 
 
@@ -102,6 +104,7 @@ void getEmotionColor(String emotionName) {
     for (float ang2 = 0; ang2 < 360; ang2 += 12) {
       float radian4 = radians(ang2);
       pushMatrix();
+      translate(x*2, y*2);
       translate(circle1 * cos(radian4), circle1 * sin(radian4));
       //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
       for (float ang3 = 0; ang3 < 360; ang3 += 10) {
@@ -114,7 +117,8 @@ void getEmotionColor(String emotionName) {
     }
   } else if (emotionName.contains("sad")) {
 
-  
+
+
     for (int i = 0; i <height; i++) {
       stroke(i, i, i);
       line(0, i, width, i);
@@ -126,40 +130,45 @@ void getEmotionColor(String emotionName) {
     { // we create the drops 
       drops[i] = new Drop();
     }
+    pushMatrix();
+    translate(x*3, y*3);
     for (int j = 0; j < faceDrops.length; j++) 
     { // we create the drops 
+
       faceDrops[j] = new Drop(x, y, w, h, emotionColor);
     }
-
+    popMatrix();
     for (int i = 0; i < drops.length; i++) {
       drops[i].fall(); // sets the shape and speed of drop
       drops[i].show(emotionColor); // render drop
     }
-    //popMatrix();
   } else if (emotionName.contains("neutral")) {
     background(0);
     emotionColor = color(155, 255, 255);
 
-    translate(width/50+x, height/2+y);
+    pushMatrix();
+    translate(x*2, x*2);
 
 
     String s = "DO YOU DARE TO SHOW YOUR TRUE COLOURS?";
     fill(emotionColor);
-    text(s, 0, 0);
+    text(s, 1, 0);
 
-    textSize(height/15);
+    textSize(height/20);
+    popMatrix();
   } else if (emotionName.contains("surprise")) {
     emotionColor = color(0, 255, 0);
-   translate(x*2, y*2);
-    FireWork(x, y);
+    translate(x*3, y*4);
+    FireWork(x, y,score);
     for (int i = 0; i < fireworks.size(); i++) {
       fireworks.get(i).update();
       fireworks.get(i).draw();
     }
   } else if (emotionName.contains("angry")) {
     emotionColor = color(250, 0, 0);
-    translate(x*2, y*2);
 
+
+   translate(x*3, y*3);
     angnoise = 10;
     //radiusnoise = random(10);
     xnoise = 800;
@@ -169,7 +178,8 @@ void getEmotionColor(String emotionName) {
     //stroke(255,0,0);
 
     //line(random(800), random(800),400,400);
-    // pushMatrix();
+    //pushMatrix();
+ 
     for (int i = 0; i < score; i++) {
 
       // length of connection line change by varying the radius
@@ -195,8 +205,8 @@ void getEmotionColor(String emotionName) {
       ynoise += 0.01;
 
       //width -> x ; height ->y; 
-      float centerX = width/2 + (noise(xnoise) * 100) -50;
-      float centerY = height/2 + (noise(ynoise) * 100) -50;
+      float centerX = w/2 + (noise(xnoise) * 100) -50;
+      float centerY = h/2 + (noise(ynoise) * 100) -50;
 
       float rad = radians(angle);
       float x1 = centerX + (radius * cos(rad));
@@ -211,20 +221,20 @@ void getEmotionColor(String emotionName) {
       strokeWeight(3); 
       line(x1, y1, x2, y2);
     }
-    // popMatrix();
+    //popMatrix();
   } else if (emotionName.contains("fear")) {
     emotionColor = color(41, 149, 101);
   }
 }
 
 
-void FireWork(float xGiven, float yGiven) {
+void FireWork(float xGiven, float yGiven, int score) {
   //fireworks.clear();
   color c = color(random(50, 255), random(50, 255), random(50, 255));
-  int numFires = (int)random(4, 1000);
+  int numFires = (int)random(4, 10*score);
   for (int i=0; i<numFires; i++) {
     float r = random(0, TWO_PI);
-    float R = random(0, 100);
+    float R = random(0, 80);
     fireworks.add(new Fire(xGiven, yGiven, R*sin(r), R*cos(r), c));
   }
 }

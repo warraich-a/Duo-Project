@@ -77,11 +77,11 @@ while True:
                     (bounding_box[0], bounding_box[1] + bounding_box[3] + 30 + idx * 15),cv2.FONT_HERSHEY_SIMPLEX,0.5,color,1,cv2.LINE_AA,)
 
     # Display
-    cv2.imshow('img', img)
-    # Stop if escape key is pressed
-    k = cv2.waitKey(30) & 0xff
-    if k == 27:
-        break
+    # cv2.imshow('img', img)
+    # # Stop if escape key is pressed
+    # k = cv2.waitKey(30) & 0xff
+    # if k == 27:
+    #     break
     print('Client sent:', clientsocket.recv(1024).decode())
     # clientsocket.send(b'Oi you sent something to me')
 

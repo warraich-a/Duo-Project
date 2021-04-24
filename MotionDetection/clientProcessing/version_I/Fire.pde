@@ -18,7 +18,7 @@ class Fire {
     if (lifetime-50>0) {
       noStroke();
       fill(col, lifetime-300);
-      ellipse(x, y, 4, 4);
+      ellipse(x, y, 5, 5);
       lifetime -= 0.9;
     }
   } 

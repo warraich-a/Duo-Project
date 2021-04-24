@@ -56,7 +56,7 @@ class Drop {
 
     float thick = map(z, 0, h, 1, 3); //if z is near , drop is more thicker 
     strokeWeight(thick); // weight of the drop
-    stroke(0); // purple color
+    stroke(col+1); // purple color
     line(xGiven, yGiven, xGiven, yGiven+len); // draws the line with two points 
     popMatrix();
   }
