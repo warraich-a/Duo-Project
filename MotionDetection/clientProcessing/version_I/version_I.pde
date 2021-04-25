@@ -28,7 +28,7 @@ float xnoise, ynoise;
 float angle = -PI/2;
 float radius; 
 
-float angle2;
+float direction;
 
 
 // Creates a client that sends input to a server
@@ -82,8 +82,9 @@ void getEmotionColor(String emotionName) {
     //float scaleVar = map(x, 0, h, 0.5, 2);
     //scale(scaleVar);
 
-   
-    float dia = 110;
+    //size of the dots
+    float dots = 450+score;
+    //speeds up the rotation
     int num = 100;
     //    circle2 = score;
     noStroke();
@@ -92,24 +93,24 @@ void getEmotionColor(String emotionName) {
 
     ////translate(x, y);
 
-//    //ang1 shows how close and how many lines/dots circle
-//    for (float ang1 = 0; ang1 < 360; ang1 += 8) {
-//      float radian1 = radians(ang1);
-//      pushMatrix();
-//       //in the middle of the screen
-//      translate(x*2, y*2);
-//      translate(circle1 * cos(radian1), circle1 * sin(radian1));
+    //    //ang1 shows how close and how many lines/dots circle
+    //    for (float ang1 = 0; ang1 < 360; ang1 += 8) {
+    //      float radian1 = radians(ang1);
+    //      pushMatrix();
+    //       //in the middle of the screen
+    //      translate(x*2, y*2);
+    //      translate(circle1 * cos(radian1), circle1 * sin(radian1));
 
 
-//      //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-//      for (float ang2 = 0; ang2 < 90; ang2 += 1) {
-//        //frameCount is speed of animation
-//        float radian2 = radians(ang2) - frameCount * 0.15 + radian1;
-//        //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
-//        ellipse(circle2 * cos(radian2), circle2 * sin(radian2), 2, 2);
-//      }
-//      popMatrix();
-//    }
+    //      //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
+    //      for (float ang2 = 0; ang2 < 90; ang2 += 1) {
+    //        //frameCount is speed of animation
+    //        float radian2 = radians(ang2) - frameCount * 0.15 + radian1;
+    //        //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
+    //        ellipse(circle2 * cos(radian2), circle2 * sin(radian2), 2, 2);
+    //      }
+    //      popMatrix();
+    //    }
 
     //for (float ang2 = 0; ang2 < 360; ang2 += 12) {
     //  float radian4 = radians(ang2);
@@ -127,20 +128,19 @@ void getEmotionColor(String emotionName) {
     //}
 
     translate(x*3, y*3);
-
-    for (float a=0; a<360; a+= 4) {
+    //changes amount of times line repeated
+    for (float a=0; a<360; a+= 45) {
       rotate(radians(a));
       pushMatrix();
       for (int i=0; i <num; i++) {
         scale(0.9);
-        rotate(radians(angle2));
+        rotate(radians(direction));
         fill(emotionColor);
-        // noStroke();
-        ellipse(width, 0, dia,dia);
+        ellipse(width, 0, dots, dots);
       }
       popMatrix();
     }
-    angle2+= score;
+    direction+= 0.95;
   } else if (emotionName.contains("sad")) {
 
 
