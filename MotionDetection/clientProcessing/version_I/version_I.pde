@@ -8,19 +8,10 @@ Client myClient;
 
 SoundFile file;   
 
-////inner circle
-//float circle1 = 150;
-////size outer circles
-//float circle2 = 200 + width + height;
-//float circle3 = 300;
-//float circle4 = 400+width+height;
-
-////inner circle
-//float circle1 = 150;
-////size outer circles
-//float circle2 = 25 + width + height;
-//float circle3 = 300;
-//float circle4 = 400+width+height;
+//inner circle
+float circle1 = 150;
+//size outer circles
+float circle2 = 200 + width + height;
 
 
 float angnoise, radiusnoise;
@@ -28,7 +19,7 @@ float xnoise, ynoise;
 float angle = -PI/2;
 float radius; 
 
-float direction;
+
 
 
 // Creates a client that sends input to a server
@@ -67,6 +58,7 @@ void setup() {
   fullScreen();
   frameRate(60);
 
+
   //Load a soundfile from the /data folder of the sketch and play it back
   //file = new SoundFile(this, "D1.wav");
   //file.play();
@@ -76,71 +68,53 @@ void setup() {
 
 void getEmotionColor(String emotionName) {
   if (emotionName.contains("happy")) {
-    background(0);
 
+  background(0);
 
-    //float scaleVar = map(x, 0, h, 0.5, 2);
-    //scale(scaleVar);
+    translate(x*4, y*4);
+    float scaleVar = map(x, 0, h, 0.5, 1.5);
+    scale(scaleVar);
 
-    //size of the dots
-    float dots = 450+score;
-    //speeds up the rotation
-    int num = 100;
-    //    circle2 = score;
+    circle2 = score*2;
     noStroke();
 
-    emotionColor = #FFC915;
+    fill(#FFC915);
 
-    ////translate(x, y);
+    //translate(x, y);
 
-    //    //ang1 shows how close and how many lines/dots circle
-    //    for (float ang1 = 0; ang1 < 360; ang1 += 8) {
-    //      float radian1 = radians(ang1);
-    //      pushMatrix();
-    //       //in the middle of the screen
-    //      translate(x*2, y*2);
-    //      translate(circle1 * cos(radian1), circle1 * sin(radian1));
-
-
-    //      //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-    //      for (float ang2 = 0; ang2 < 90; ang2 += 1) {
-    //        //frameCount is speed of animation
-    //        float radian2 = radians(ang2) - frameCount * 0.15 + radian1;
-    //        //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
-    //        ellipse(circle2 * cos(radian2), circle2 * sin(radian2), 2, 2);
-    //      }
-    //      popMatrix();
-    //    }
-
-    //for (float ang2 = 0; ang2 < 360; ang2 += 12) {
-    //  float radian4 = radians(ang2);
-    //  pushMatrix();
-    //  translate(x*2, y*2);
-    //  translate(circle1 * cos(radian4), circle1 * sin(radian4));
-    //  //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
-    //  for (float ang3 = 0; ang3 < 360; ang3 += 10) {
-    //    //frameCount is speed of animation
-    //    float radian3 = radians(ang3) - frameCount * 0.1 + radian4+width;
-    //    //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
-    //    ellipse(circle2 * cos(radian3), circle2 * sin(radian3), 2, 2);
-    //  }
-    //  popMatrix();
-    //}
-
-    translate(x*3, y*3);
-    //changes amount of times line repeated
-    for (float a=0; a<360; a+= 45) {
-      rotate(radians(a));
+    //ang1 shows how close and how many lines/dots circle
+    for (float ang1 = 0; ang1 < 360; ang1 += 8) {
+      float radian1 = radians(ang1);
       pushMatrix();
-      for (int i=0; i <num; i++) {
-        scale(0.9);
-        rotate(radians(direction));
-        fill(emotionColor);
-        ellipse(width, 0, dots, dots);
+      //in the middle of the screen
+
+      translate(circle1 * cos(radian1), circle1 * sin(radian1));
+
+
+      //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
+      for (float ang2 = 0; ang2 < 90; ang2 += 1) {
+        //frameCount is speed of animation
+        float radian2 = radians(ang2) - frameCount * 0.15 + radian1;
+        //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
+        ellipse(circle2 * cos(radian2), circle2 * sin(radian2), 2, 2);
       }
       popMatrix();
     }
-    direction+= 0.95;
+
+    for (float ang2 = 0; ang2 < 360; ang2 += 12) {
+      float radian4 = radians(ang2);
+      pushMatrix();
+      // translate(x*2, y*2);
+      translate(circle1 * cos(radian4), circle1 * sin(radian4));
+      //ang2 how close the dots are to eachother (ex. 1 is a line, 10 are small dots)
+      for (float ang3 = 0; ang3 < 360; ang3 += 10) {
+        //frameCount is speed of animation
+        float radian3 = radians(ang3) - frameCount * 0.1 + radian4+width;
+        //draw the circle(ellipse) because of the small circles from radian2 and width of circle2
+        ellipse(circle2 * cos(radian3), circle2 * sin(radian3), 2, 2);
+      }
+      popMatrix();
+    }
   } else if (emotionName.contains("sad")) {
 
 
@@ -170,7 +144,7 @@ void getEmotionColor(String emotionName) {
     }
   } else if (emotionName.contains("neutral")) {
     background(0);
-    emotionColor = color(155, 255, 255);
+    emotionColor = color(255);
 
     pushMatrix();
     translate(x*2, x*2);
@@ -248,10 +222,9 @@ void getEmotionColor(String emotionName) {
       line(x1, y1, x2, y2);
     }
     //popMatrix();
-  } else if (emotionName.contains("fear")) {
-    emotionColor = color(41, 149, 101);
   }
 }
+
 
 
 void FireWork(float xGiven, float yGiven, int score) {
